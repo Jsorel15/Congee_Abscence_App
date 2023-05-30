@@ -1,0 +1,2 @@
+# Diagramme
+Initialisation
