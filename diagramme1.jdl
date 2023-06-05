@@ -1,50 +1,46 @@
-entity Utilisateur {
+entity Employer {
   nom String,
-  email String,
-  motDePasse String,
-  abonnement Abonnement
+  departement String,
+  soldeConges Float
 }
 
-entity Reservation {
-  date LocalDate,
-  creneau String,
-  salle Salle,
-  utilisateur Utilisateur
-}
-
-entity Salle {
+entity Gestionnaire {
   nom String,
-  emplacement String,
-  equipements String,
-  horaires String
+  departement String
 }
 
-entity Abonnement {
-  utilisateur Utilisateur,
-  type String,
-  dateDebut LocalDate,
-  dateFin LocalDate
+entity DemandeConge {
+  typeConge String,
+  periode Instant,
+  raison String,
+  statut String
 }
 
-entity Paiement {
-  montant Double,
-  date LocalDate,
-  statut String,
-  reservation Reservation
+entity Conge {
+  periode Instant,
+  raison String
 }
 
-entity Equipement {
-  nom String,
-  salle Salle
-}
-
-relationship OneToOne {
-  Utilisateur{abonnement} to Abonnement{utilisateur}
+entity CalendrierConges {
+  id Long
 }
 
 relationship ManyToOne {
-  Reservation{utilisateur} to Utilisateur,
-  Reservation{salle} to Salle,
-  Paiement{reservation} to Reservation,
-  Equipement{salle} to Salle
+  DemandeConge{employer} to Employer,
+  DemandeConge{gestionnaire} to Gestionnaire,
+  Conge{employer} to Employer,
+  CalendrierConges{congesPlanifies} to Conge
+}
+
+enum StatutDemandeConge {
+  EN_ATTENTE
+  APPROUVE
+  REJETE
+}
+
+enum TypeConge {
+  PAYE
+  NON_PAYE
+  MALADIE
+  CONGE_PARENTAL
 }
